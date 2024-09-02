@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
-        'total',
-        'user_id',
-       
+        'user_id', 'total'
     ];
+
+    public function photos() {
+        return $this->belongsToMany(Photo::class); 
+    }
 
     public function user()
     {
