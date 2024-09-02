@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('order_photo', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained();
+            $table->foreignId('photo_id')->constrained();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
