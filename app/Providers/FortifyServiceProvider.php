@@ -22,20 +22,11 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->instance(LoginResponse::class, new class implements LoginResponse{
-            public function toResponse($request, )
+        //override fortify redirecting to /home
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse  {
+            public function toResponse($request)
             {
-                // Implement your custom logic here
                 return redirect('/');
-                 
-            }
-        });
-        $this->app->instance(RegisterResponse::class, new class implements RegisterResponse){
-            public function toResponse($request, )
-            { 
-                // Implement your custom logic here
-                return redirect('/');
-                 
             }
         });
     }
@@ -58,6 +49,14 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+
+        Fortify::registerView(function () {
+            return view('auth.register');
+        });
+
+        Fortify::loginView(function () {
+            return view('auth.login');
         });
     }
 }
