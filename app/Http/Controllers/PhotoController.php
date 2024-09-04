@@ -52,6 +52,41 @@ class PhotoController extends Controller
         }
 
     }
+    public function show(Photo $photo)
+    {
+        //
+          return view('show')->with([
+            'photo' => $photo
+          ]);
+    }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Photo $photo)
+    {
+        //
+        return view('admin.photos.edit')->with([
+            'photo' => $photo
+        ]);
+    }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdatePhotoRequest $request, Photo $photo)
+    {
+        //
+        if($request->validated()) {
+            $data = $request->all();
+            $data['admin_id'] = auth()->guard('admin')->user()->id;
+            $photo->update($data);
+            return redirect()->route('admin.index')->with([
+                'success' => 'Photo updated successfully'
+            ]);
+        }
+    }
 }
+
+
+
