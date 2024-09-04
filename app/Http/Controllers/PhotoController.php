@@ -35,4 +35,23 @@ class PhotoController extends Controller
         return view('admin.photos.create');
     }
 
+    public function store(StorePhotoRequest $request)
+    {
+        //
+        if($request->validated()) {
+            $data = $request->all();
+            $image = $request->file('image');
+            $image_name = time().'_'.'image'.'_'.$image->getClientOriginalName();
+            $image->storeAs('images/', $image_name, 'public');
+            $data['url'] = 'storage/images/'.$image_name;
+            $data['admin_id'] = auth()->guard('admin')->user()->id;
+            Photo::create($data);
+            return redirect()->route('admin.index')->with([
+                'success' => 'Photo uploaded successfully'
+            ]);
+        }
+
+    }
+
+
 }
