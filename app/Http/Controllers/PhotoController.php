@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePhotoRequest;
+use App\Http\Requests\UpdatePhotoRequest;
 use Illuminate\Http\Request;
 use App\Models\Photo;
 
@@ -37,7 +39,7 @@ class PhotoController extends Controller
 
     public function store(StorePhotoRequest $request)
     {
-        //
+    
         if($request->validated()) {
             $data = $request->all();
             $image = $request->file('image');
@@ -60,9 +62,7 @@ class PhotoController extends Controller
           ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Photo $photo)
     {
         //
@@ -71,12 +71,10 @@ class PhotoController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdatePhotoRequest $request, Photo $photo)
     {
-        //
+       
         if($request->validated()) {
             $data = $request->all();
             $data['admin_id'] = auth()->guard('admin')->user()->id;
